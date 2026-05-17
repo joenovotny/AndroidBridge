@@ -17,9 +17,18 @@ app.use(createRoutes({ cloudKit, apnsPushUrl, userAppApnsTopic }));
 app.use((error, _req, res, _next) => {
   console.error(error);
   const status = error.status && error.status >= 400 && error.status < 600 ? error.status : 500;
+  const cloudKitError = error.cloudKit
+    ? {
+        status: error.status,
+        code: error.cloudKit.serverErrorCode,
+        reason: error.cloudKit.reason,
+      }
+    : undefined;
+
   res.status(status).json({
-    error: nodeEnv === "production" ? "Request failed." : error.message,
-    ...(nodeEnv === "production" ? {} : { cloudKit: error.cloudKit }),
+    error: nodeEnv === "production" ? "CloudKit request failed." : error.message,
+    ...(cloudKitError ? { cloudKit: cloudKitError } : {}),
+    ...(nodeEnv === "production" ? {} : { details: error.cloudKit }),
   });
 });
 
