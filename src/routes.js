@@ -12,7 +12,11 @@ function createRoutes({ cloudKit, apnsPushUrl, userAppApnsTopic }) {
   const router = express.Router();
 
   router.get("/health", (_req, res) => {
-    res.json({ ok: true });
+    res.json({
+      ok: true,
+      node: process.versions.node,
+      fetch: typeof fetch === "function",
+    });
   });
 
   router.get("/truck/status", asyncHandler(async (_req, res) => {

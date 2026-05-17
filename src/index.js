@@ -24,10 +24,18 @@ app.use((error, _req, res, _next) => {
         reason: error.cloudKit.reason,
       }
     : undefined;
+  const publicDetails = cloudKitError
+    ? undefined
+    : {
+        type: error.name,
+        code: error.code,
+        message: error.message,
+      };
 
   res.status(status).json({
     error: nodeEnv === "production" ? "CloudKit request failed." : error.message,
     ...(cloudKitError ? { cloudKit: cloudKitError } : {}),
+    ...(publicDetails ? { details: publicDetails } : {}),
     ...(nodeEnv === "production" ? {} : { details: error.cloudKit }),
   });
 });
