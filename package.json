@@ -1,0 +1,20 @@
+{
+  "name": "lils-android-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Render bridge API for the Lil's Ice Cream Android customer app and CloudKit.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0"
+  }
+}
