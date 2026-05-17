@@ -23,6 +23,15 @@ Required for CloudKit:
 - `CLOUDKIT_KEY_ID`
 - `CLOUDKIT_PRIVATE_KEY`
 
+If Render has trouble with multiline private keys, use `CLOUDKIT_PRIVATE_KEY_BASE64` instead of `CLOUDKIT_PRIVATE_KEY`.
+Create it locally from the PEM file with:
+
+```bash
+base64 -i AuthKey_or_PrivateKey.pem | tr -d '\n'
+```
+
+Then paste that one-line value into Render as `CLOUDKIT_PRIVATE_KEY_BASE64`.
+
 Optional:
 
 - `APNS_PUSH_URL`
@@ -63,4 +72,3 @@ This avoids overwriting iOS records named:
 `UserPushToken_{normalizedPhone}`
 
 Adding Android customer push delivery for zone alerts/end-of-day will require a later safe update to the truck push workflow so it can route Android tokens through FCM.
-

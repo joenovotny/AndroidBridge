@@ -8,7 +8,16 @@ class CloudKitClient {
     this.environment = config.environment;
     this.database = config.database;
     this.keyId = config.keyId;
-    this.privateKey = config.privateKey;
+    try {
+      this.privateKey = crypto.createPrivateKey(config.privateKey);
+    } catch (error) {
+      const firstLine = String(config.privateKey).split(/\r?\n/)[0] || "missing";
+      const keyError = new Error(`CloudKit private key is not a valid PEM private key. First line: ${firstLine}`);
+      keyError.status = 500;
+      keyError.code = "INVALID_CLOUDKIT_PRIVATE_KEY";
+      keyError.cause = error;
+      throw keyError;
+    }
   }
 
   async lookup(recordNames, desiredKeys = undefined) {
