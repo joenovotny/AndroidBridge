@@ -71,7 +71,8 @@ class CloudKitClient {
       .sign(this.privateKey, "base64");
 
     return {
-      "Content-Type": "application/json",
+      "Content-Type": "text/plain",
+      "Accept": "application/json",
       "X-Apple-CloudKit-Request-KeyID": this.keyId,
       "X-Apple-CloudKit-Request-ISO8601Date": date,
       "X-Apple-CloudKit-Request-SignatureV1": signature,
